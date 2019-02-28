@@ -25,7 +25,7 @@ Package Auto-Discovery is supported
 php artisan vendor:publish --provider="ITB\Backup\BackupServiceProvider" --tag=config
 ```
 
-#### Database(s) backup
+#### Database(s)
 
 Package looking for database connections declared in configuration `ITB-backup.database.connections`
 In `config/database.php` connections is a keys of the array `database.connections`.
@@ -33,7 +33,7 @@ That it!
 
 ## Usage
 
-#### Backup database(s)
+#### Database(s)
 
 To make an database backup, just run
 ```
