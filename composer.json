@@ -5,7 +5,11 @@
         "Laravel Backup Software",
         "Laravel backup console"
     ],
-    "type": "package",
+    "homepage": "https://github.com/in-the-beam/laravel-backup".
+    "support": {
+      "issues": "https://github.com/in-the-beam/laravel-backup/issues"
+    },
+    "type": "library",
     "require": {
         "php": ">=7",
         "illuminate/support": "5.8.*",
