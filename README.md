@@ -15,7 +15,7 @@ Tested on Laravel 5.8
 ## Installation
 
 ```
-composer require in-the-beam/laravel-backup
+composer require in-the-beam/laravel-backup-commands
 ```
 Package Auto-Discovery is supported
 
