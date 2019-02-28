@@ -1,0 +1,40 @@
+{
+    "name": "in-the-beam/laravel-backup",
+    "description": "Backup console commands for Your Laravel",
+    "keywords": [
+        "Laravel Backup Software",
+        "Laravel backup console"
+    ],
+    "type": "package",
+    "require": {
+        "php": ">=7",
+        "illuminate/support": "5.8.*",
+        "illuminate/console": "5.8.*"
+    },
+    "require-dev": {
+        "illuminate/config": "5.8.*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Stanislav Kabin",
+            "email": "me@h-zone.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "ITB\\Backup\\": "src"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.0-dev"
+        },
+        "laravel": {
+            "providers": [
+                "ITB\\Backup\\BackupServiceProvider"
+            ]
+        }
+    }
+}
