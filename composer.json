@@ -5,7 +5,7 @@
         "Laravel Backup Software",
         "Laravel backup console"
     ],
-    "homepage": "https://github.com/in-the-beam/laravel-backup".
+    "homepage": "https://github.com/in-the-beam/laravel-backup",
     "support": {
       "issues": "https://github.com/in-the-beam/laravel-backup/issues"
     },
