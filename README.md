@@ -27,7 +27,7 @@ php artisan vendor:publish --provider="ITB\Backup\BackupServiceProvider" --tag=c
 
 #### Database(s)
 
-Package looking for database connections declared in configuration `ITB-backup.database.connections`
+Package is looking for database connections declared in configuration `ITB-backup.database.connections`
 In `config/database.php` connections is a keys of the array `database.connections`.
 That it!
 
@@ -40,6 +40,14 @@ To make an database backup, just run
 php artisan ITB:backup-database
 ```
 
+#### Local project files
+
+To make an files backup, just run
+```
+php artisan ITB:backup-files
+```
+Note: see config for exclude files and/or directories
+
 #### Backup Storage Cleanup
 
 To remove all backups, just run
@@ -49,8 +57,10 @@ php artisan ITB:backup-cleanup
 At the same time, you will be interactively asked for confirmations where the affirmative answer is the word “I confirm”. Other response options, including blank entry, cancel store clearing.<br>
 Forcing deletion by adding a key or option will not be added.
 
-# IN DEVELOPMENT
+#### Notes for Archiver
 
-* Local Filesystem Backup
+If You see, config have global archiver value and separatelly for each action.<br>
+If You need, You can disable action archiver by setting `'archiver' => null,`.<br>
+But i recommend to benchmark Your system by compressing database dump and project files by each archiver, then select better option.
 
 ## License MIT

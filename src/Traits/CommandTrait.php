@@ -78,7 +78,6 @@ trait CommandTrait
     protected function _makeBackupDirs()
     {
         $this->_makeDirectory( $this->config[ 'backupDir' ] );
-        $this->_makeDirectory( $this->config[ 'old' ][ 'store_at' ] );
         /*
          * OPTION Date-Directories
          */

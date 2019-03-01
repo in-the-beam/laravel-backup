@@ -13,7 +13,7 @@ namespace ITB\Backup;
 use Illuminate\Support\ServiceProvider;
 use ITB\Backup\Console\BackupDatabaseCommand;
 use ITB\Backup\Console\CleanupBackupStorageCommand;
-//use ITB\Backup\Console\BackupFilesCommand;
+use ITB\Backup\Console\BackupFilesCommand;
 
 
 class BackupServiceProvider extends ServiceProvider
@@ -40,6 +40,7 @@ class BackupServiceProvider extends ServiceProvider
         {
             $this->commands([
                 BackupDatabaseCommand::class,
+                BackupFilesCommand::class,
                 CleanupBackupStorageCommand::class,
             ]);
         }

@@ -14,19 +14,23 @@ return [
      */
     'use_date_directory' => true,
     /**
-     * Old backups behavior (Backup 51+)
-     */
-    'old'    => [
-        'remove'   => false,
-        'store_at' => storage_path( 'backups/old' ),
-    ],
-    /**
      * Archiver
+     *
      * Supports:
-     *      tar.gzip    (default)
-     *      zip         (poor compression;      tested on zip 3.0  at linux debian)
-     *      rar         (better compression;    tested on rar 5.40 at linux debian)
-     * 
+     *      tar.gzip    ( default;  best for multiple files; tested on tar 1.29 at linux debian 9 )
+     *      zip         ( optional; poor compression;        tested on zip 3.0  at linux debian 9 )
+     *      rar         ( optional; better compression;      tested on rar 5.40 at linux debian 9 )
+     *
+     * BENCHMARKS
+     *
+     * 300324 bytes _files.tar.gz           - best!
+     * 302904 bytes _files.rar              - optimal
+     * 345464 bytes _files.zip              - useable
+     *
+     * 2392 bytes _database_pgsql.rar       - best!
+     * 2465 bytes _database_pgsql.tar.gz    - optimal
+     * 2512 bytes _database_pgsql.zip       - useable
+     *
      */
     'archiver' => 'tar.gzip',
 //    'archiver' => 'zip',
@@ -45,6 +49,13 @@ return [
         'connections' => [
             'pgsql',
         ],
+        /**
+         * Archiver / OVERRIDE GLOBALS
+         *
+         * Accepts: [ tar.gzip | zip | rar | NULL ]
+         * If not null - will be used global variable
+         */
+        'archiver' => 'rar',
     ],
     /**
      * FILES
@@ -54,11 +65,6 @@ return [
          * Enable or disable backing up the filesystem
          */
         'enabled'       => true,
-        /**
-         * How much backups to store
-         * Zero [0] - disable backups counting
-         */
-        'store'         => 50,
         /**
          * Exclude directories from backup
          */
@@ -71,6 +77,13 @@ return [
             'bower_components',             // bower components
             'vendor',                       // vendor directory. optional        ],
         ],
+        /**
+         * Archiver / OVERRIDE GLOBALS
+         *
+         * Accepts: [ tar.gzip | zip | rar | NULL ]
+         * If not null - will be used global variable
+         */
+        'archiver' => 'tar.gzip',
     ],
     /**
      * CLEANUP

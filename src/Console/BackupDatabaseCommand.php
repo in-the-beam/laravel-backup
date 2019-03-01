@@ -76,7 +76,6 @@ class BackupDatabaseCommand extends Command
         foreach( $this->databases['connections'] AS $_key => $_connection )
         {
             $this->info( '' );
-            $this->comment( '======================================================================' );
             $this->filename = str_replace( '{CONNECTION}', $_key, $this->filename );
             $this->dfilename = str_replace( '{CONNECTION}', $_key, $this->dfilename );
             $_driver    = $_connection['driver'];
@@ -87,12 +86,11 @@ class BackupDatabaseCommand extends Command
             {
                 $_schema = implode( ', ', $_schema );
             }
-            $this->warn( 'Found Database Connection: '.$_key );
+            $this->warn( '  Found Database Connection: '.$_key );
             $this->info( '  Driver  : ' . $_driver );
             $this->info( '  Host    : ' . $_host );
             $this->info( '  Database: ' . $_database );
             $this->info( '  Schemas : ' . $_schema );
-            $this->warn( 'Storage path  : ' . str_replace( base_path(), null, $this->config['backupDir'] ) );
             $this->timer = microtime(true);
             $this->_backup( $_key, $_connection );
             unset( $_filename, $_key, $_connection, $_driver, $_host, $_database, $_schema );
@@ -120,6 +118,10 @@ class BackupDatabaseCommand extends Command
         $schema    = $conn['schema'];
         $config    = $this->config;
         $archiver  = $config['archiver'];
+        if ( !empty( $config['database']['archiver'] ) )
+        {
+            $archiver = $config['database']['archiver'];
+        }
         if ( is_array( $schema ) )
         {
             $schema = implode( ', ', $schema );
@@ -161,9 +163,9 @@ class BackupDatabaseCommand extends Command
         /*
          * DO COMPRESS
          */
-        $this->info( '  Trying compress with Archiver' );
+        $this->info( '  Trying to compress' );
         $cmd = [];
-        $cmd[] = 'cd ' . $backupDir;;
+        $cmd[] = 'cd ' . $backupDir;
         switch( $archiver )
         {
             default:
@@ -184,8 +186,8 @@ class BackupDatabaseCommand extends Command
         $this->_runCmd( $cmd );
         // code
         $time = microtime(true)-$start;
-        $this->warn( 'Dump done in   ' . number_format( $time, 2, ',', ' ' ) . ' seconds.' );
-        $this->warn( 'Backup file is ' . str_replace( base_path(), null, $backupDir ). '/' .$filename.$_extension );
+        $this->warn( '  Backup file is ' . $filename.$_extension );
+        $this->warn( '              at ' . str_replace( base_path(), null, $backupDir ) );
     }
 
     /**
