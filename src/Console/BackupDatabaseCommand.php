@@ -150,7 +150,7 @@ class BackupDatabaseCommand extends Command
         switch ( $driver )
         {
             case 'pgsql':
-                $cmd = 'PGPASSWORD="' . $password . '" pg_dump -h ' . $host . ' -U ' . $username . ' -f ' . $filepath . '.sql ' . $database;
+                $cmd = 'PGPASSWORD="' . $password . '" pg_dump --column-inserts --no-owner --no-acl -h ' . $host . ' -U ' . $username . ' -f ' . $filepath . '.sql ' . $database;
             break;
             case 'mysql':
                 $cmd = 'mysqldump - u' . $username . ' - p' . $password . ' ' . $database . ' > ' . $filepath . '.sql';
