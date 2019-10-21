@@ -12,11 +12,11 @@
     "type": "library",
     "require": {
         "php": ">=7",
-        "illuminate/support": "5.8.*",
-        "illuminate/console": "5.8.*"
+        "illuminate/support": "*",
+        "illuminate/console": "*"
     },
     "require-dev": {
-        "illuminate/config": "5.8.*"
+        "illuminate/config": "*"
     },
     "license": "MIT",
     "authors": [
