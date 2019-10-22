@@ -75,6 +75,10 @@ class BackupDatabaseCommand extends Command
          */
         foreach( $this->databases['connections'] AS $_key => $_connection )
         {
+            if ( !in_array( $_key, $this->config['database']['connections'] ) )
+            {
+                continue;
+            }
             $this->info( '' );
             $this->filename = str_replace( '{CONNECTION}', $_key, $this->filename );
             $this->dfilename = str_replace( '{CONNECTION}', $_key, $this->dfilename );
