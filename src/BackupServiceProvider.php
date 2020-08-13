@@ -5,16 +5,15 @@
  * @author    Stanislav Kabin <me@h-zone.ru>
  * @copyright 2019 Stanislav Kabin
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      https://github.com/in-the-beam/laravel-backup
+ * @link      https://github.com/make-it-app/laravel-backup-commands
  */
 
-namespace ITB\Backup;
+namespace MakeItApp\Backup;
 
 use Illuminate\Support\ServiceProvider;
-use ITB\Backup\Console\BackupDatabaseCommand;
-use ITB\Backup\Console\CleanupBackupStorageCommand;
-use ITB\Backup\Console\BackupFilesCommand;
-
+use MakeItApp\Backup\Console\BackupDatabaseCommand;
+use MakeItApp\Backup\Console\CleanupBackupStorageCommand;
+use MakeItApp\Backup\Console\BackupFilesCommand;
 
 class BackupServiceProvider extends ServiceProvider
 {
@@ -25,19 +24,15 @@ class BackupServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $configPath = __DIR__ . '/../config/ITB-backup.php';
-        if ( function_exists( 'config_path' ) )
-        {
-            $publishPath = config_path( 'ITB-backup.php' );
-        }
-        else
-        {
-            $publishPath = base_path( 'config/ITB-backup.php' );
+        $configPath = __DIR__ . '/../config/makeitapp-backup.php';
+        if ( function_exists( 'config_path' ) ) {
+            $publishPath = config_path( 'makeitapp-backup.php' );
+        } else {
+            $publishPath = base_path( 'config/makeitapp-backup.php' );
         }
         $this->publishes([ $configPath => $publishPath ], 'config' );
 
-        if ($this->app->runningInConsole())
-        {
+        if ($this->app->runningInConsole()) {
             $this->commands([
                 BackupDatabaseCommand::class,
                 BackupFilesCommand::class,
@@ -53,7 +48,7 @@ class BackupServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $configPath = __DIR__ . '/../config/ITB-backup.php';
-        $this->mergeConfigFrom( $configPath, 'ITB-backup' );
+        $configPath = __DIR__ . '/../config/makeitapp-backup.php';
+        $this->mergeConfigFrom( $configPath, 'makeitapp-backup' );
     }
 }

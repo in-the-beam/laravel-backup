@@ -5,10 +5,10 @@
  * @author    Stanislav Kabin <me@h-zone.ru>
  * @copyright 2019 Stanislav Kabin
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      https://github.com/in-the-beam/laravel-backup
+ * @link      https://github.com/make-it-app/laravel-backup-commands
  */
 
-namespace ITB\Backup\Traits;
+namespace MakeItApp\Backup\Traits;
 
 trait CommandTrait
 {
@@ -18,43 +18,29 @@ trait CommandTrait
      */
     protected function _runCmd( $cmd )
     {
-        if ( !empty( $cmd ) )
-        {
-            if ( is_array( $cmd ) )
-            {
+        if ( !empty( $cmd ) ) {
+            if ( is_array( $cmd ) ) {
                 $cmd = implode( ' && ', $cmd );
             }
-            if ( $this->_isWindows() )
-            {
-                if ( function_exists( 'popen' ) && function_exists( 'pclose' ) )
-                {
+            if ( $this->_isWindows() ) {
+                if ( function_exists( 'popen' ) && function_exists( 'pclose' ) ) {
                     pclose( popen( 'start / B ' . $cmd, 'r' ) );
-                }
-                else
-                {
-                    if ( $this->messaging === true )
-                    {
+                } else {
+                    if ( $this->messaging === true ) {
                         $this->error( 'Windows php.exe should support \'popen\'|\'pclose\' commands to proper functionality' );
                     }
                 }
             }
-            else
-            {
-                if ( function_exists( 'exec' ) )
-                {
+            else {
+                if ( function_exists( 'exec' ) ) {
                     exec( $cmd );
-                }
-                else
-                {
-                    if ( $this->messaging === true )
-                    {
+                } else {
+                    if ( $this->messaging === true ) {
                         $this->error( 'linux php-cli should support \'exec\' command to proper functionality' );
                     }
                 }
             }
-        }
-        else
-        {
+        } else {
             $this->error( 'Command is empty. Check Requirements first.' );
         }
     }
@@ -65,8 +51,7 @@ trait CommandTrait
      */
     protected function _isWindows()
     {
-        if ( strtoupper( substr( PHP_OS, 0, 3 ) ) === 'WIN' )
-        {
+        if ( strtoupper( substr( PHP_OS, 0, 3 ) ) === 'WIN' ) {
             return true;
         }
         return false;
@@ -81,8 +66,7 @@ trait CommandTrait
         /*
          * OPTION Date-Directories
          */
-        if ( $this->config['use_date_directory'] )
-        {
+        if ( $this->config['use_date_directory'] ) {
             $this->_makeDirectory( $this->config['backupDir'] . $this->date );
         }
     }
@@ -93,18 +77,13 @@ trait CommandTrait
      */
     protected function _makeDirectory( $directory )
     {
-        try
-        {
-            if ( !is_dir( $directory ) && !is_file( $directory ) && !is_link( $directory ) )
-            {
+        try {
+            if ( !is_dir( $directory ) && !is_file( $directory ) && !is_link( $directory ) ) {
                 mkdir( $directory, 0755, true );
             }
-        }
-        catch ( \Exception $e )
-        {
+        } catch ( \Exception $e ) {
             $this->error( $e->getMessage() );
             die;
         }
     }
-
 }

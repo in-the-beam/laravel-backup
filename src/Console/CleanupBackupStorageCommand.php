@@ -5,11 +5,11 @@
  * @author    Stanislav Kabin <me@h-zone.ru>
  * @copyright 2019 Stanislav Kabin
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      https://github.com/in-the-beam/laravel-backup
+ * @link      https://github.com/make-it-app/laravel-backup-commands
  */
 
 
-namespace ITB\Backup\Console;
+namespace MakeItApp\Backup\Console;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
@@ -22,7 +22,7 @@ class CleanupBackupStorageCommand extends Command
      * The console command name.
      * @var string
      */
-    protected $name = 'ITB:backup-cleanup';
+    protected $name = 'makeitapp:backup:cleanup';
 
     /**
      * The console command description.
@@ -38,7 +38,7 @@ class CleanupBackupStorageCommand extends Command
      */
     public function __construct()
     {
-        $this->config     = config( 'ITB-backup' );
+        $this->config     = config( 'makeitapp-backup' );
         parent::__construct();
     }
 
@@ -48,9 +48,8 @@ class CleanupBackupStorageCommand extends Command
      */
     public function handle()
     {
-        if ( $this->config['cleanup']['enabled'] != true )
-        {
-            $this->error( 'ITB:backup-cleanup IS DISABLED VIA CONFIGURATION' );
+        if ( $this->config['cleanup']['enabled'] != true ) {
+            $this->error( 'makeitapp:backup:cleanup IS DISABLED VIA CONFIGURATION' );
             die;
         }
         $this->info( '' );
@@ -59,19 +58,13 @@ class CleanupBackupStorageCommand extends Command
 
         $this->timer = microtime(true);
 
-        if ( strtolower( $this->ask( 'DO YOU REALLY WANT TO REMOVE ALL BACKUPS? [type `confirm` to perform cleanup]' ) ) == 'confirm' )
-        {
-            if( is_dir( $this->config[ 'backupDir' ] ) )
-            {
+        if ( strtolower( $this->ask( 'DO YOU REALLY WANT TO REMOVE ALL BACKUPS? [type `confirm` to perform cleanup]' ) ) == 'confirm' ) {
+            if( is_dir( $this->config[ 'backupDir' ] ) ) {
                 $this->_rrmdir( $this->config[ 'backupDir' ] );
-            }
-            else
-            {
+            } else {
                 $this->error( 'Nothing to remove.' );
             }
-        }
-        else
-        {
+        } else {
             $this->error( 'Cancelled.' );
         }
         $this->info( '' );
@@ -87,15 +80,11 @@ class CleanupBackupStorageCommand extends Command
     protected function _rrmdir( $path )
     {
         $i = new DirectoryIterator( $path );
-        foreach( $i as $f )
-        {
-            if( $f->isFile() )
-            {
+        foreach( $i as $f ) {
+            if( $f->isFile() ) {
                 $this->warn( 'Permanently removed file ' . str_replace( base_path(), null, $f->getRealPath() ) );
                 unlink( $f->getRealPath() );
-            }
-            else if( !$f->isDot() && $f->isDir() )
-            {
+            } else if( !$f->isDot() && $f->isDir() ) {
                 $this->_rrmdir( $f->getRealPath() );
             }
         }

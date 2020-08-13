@@ -1,13 +1,13 @@
 {
-    "name": "in-the-beam/laravel-backup-commands",
+    "name": "make-it-app/laravel-backup-commands",
     "description": "Backup console commands for Your Laravel",
     "keywords": [
         "Laravel Backup Software",
         "Laravel backup console"
     ],
-    "homepage": "https://github.com/in-the-beam/laravel-backup",
+    "homepage": "https://github.com/make-it-app/laravel-backup",
     "support": {
-      "issues": "https://github.com/in-the-beam/laravel-backup/issues"
+      "issues": "https://github.com/make-it-app/laravel-backup/issues"
     },
     "type": "library",
     "require": {
@@ -28,7 +28,7 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "ITB\\Backup\\": "src"
+            "MakeItApp\\Backup\\": "src"
         }
     },
     "extra": {
@@ -37,7 +37,7 @@
         },
         "laravel": {
             "providers": [
-                "ITB\\Backup\\BackupServiceProvider"
+                "MakeItApp\\Backup\\BackupServiceProvider"
             ]
         }
     }

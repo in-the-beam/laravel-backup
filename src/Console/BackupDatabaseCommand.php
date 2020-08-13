@@ -5,16 +5,16 @@
  * @author    Stanislav Kabin <me@h-zone.ru>
  * @copyright 2019 Stanislav Kabin
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      https://github.com/in-the-beam/laravel-backup
+ * @link      https://github.com/make-it-app/laravel-backup-commands
  */
 
 
-namespace ITB\Backup\Console;
+namespace MakeItApp\Backup\Console;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use ITB\Backup\Traits\CommandTrait;
+use MakeItApp\Backup\Traits\CommandTrait;
 
 class BackupDatabaseCommand extends Command
 {
@@ -23,7 +23,7 @@ class BackupDatabaseCommand extends Command
      * The console command name.
      * @var string
      */
-    protected $name = 'ITB:backup-database';
+    protected $name = 'makeitapp:backup:database';
 
     /**
      * The console command description.
@@ -45,7 +45,7 @@ class BackupDatabaseCommand extends Command
      */
     public function __construct()
     {
-        $this->config     = config( 'ITB-backup' );
+        $this->config     = config( 'makeitapp-backup' );
         $this->databases  = config( 'database' );
         $this->utime      = time();
         $this->date       = date( 'Y-m-d', $this->utime );
@@ -61,9 +61,8 @@ class BackupDatabaseCommand extends Command
      */
     public function handle()
     {
-        if ( $this->config['database']['enabled'] != true )
-        {
-            $this->error( 'ITB:backup-database IS DISABLED VIA CONFIGURATION' );
+        if ( $this->config['database']['enabled'] != true ) {
+            $this->error( 'makeitapp:backup:database IS DISABLED VIA CONFIGURATION' );
             die;
         }
         $this->info( '' );
@@ -75,8 +74,7 @@ class BackupDatabaseCommand extends Command
          */
         foreach( $this->databases['connections'] AS $_key => $_connection )
         {
-            if ( !in_array( $_key, $this->config['database']['connections'] ) )
-            {
+            if ( !in_array( $_key, $this->config['database']['connections'] ) ) {
                 continue;
             }
             $this->info( '' );
@@ -86,8 +84,7 @@ class BackupDatabaseCommand extends Command
             $_host      = $_connection['host'] . ':' .$_connection['port'];
             $_database  = $_connection['database'];
             $_schema    = $_connection['schema'];
-            if ( is_array( $_schema ) )
-            {
+            if ( is_array( $_schema ) ) {
                 $_schema = implode( ', ', $_schema );
             }
             $this->warn( '  Found Database Connection: '.$_key );
@@ -122,12 +119,10 @@ class BackupDatabaseCommand extends Command
         $schema    = $conn['schema'];
         $config    = $this->config;
         $archiver  = $config['archiver'];
-        if ( !empty( $config['database']['archiver'] ) )
-        {
+        if ( !empty( $config['database']['archiver'] ) ) {
             $archiver = $config['database']['archiver'];
         }
-        if ( is_array( $schema ) )
-        {
+        if ( is_array( $schema ) ) {
             $schema = implode( ', ', $schema );
         }
         $username = $conn['username'];
@@ -135,14 +130,11 @@ class BackupDatabaseCommand extends Command
         /*
          * OPTION Date-Directories
          */
-        if ( $config['use_date_directory'] )
-        {
+        if ( $config['use_date_directory'] ) {
             $backupDir = $this->config['backupDir'] . $this->date;
             $filepath  = $backupDir . '/' . $this->dfilename;
             $filename  = $this->dfilename;
-        }
-        else
-        {
+        } else {
             $backupDir = $this->config['backupDir'];
             $filepath  = $backupDir . $this->filename;
             $filename  = $this->filename;
@@ -151,8 +143,7 @@ class BackupDatabaseCommand extends Command
          * DO DUMP TO .SQL FILE
          */
         $cmd = '';
-        switch ( $driver )
-        {
+        switch ( $driver ) {
             case 'pgsql':
                 $cmd = 'PGPASSWORD="' . $password . '" pg_dump --column-inserts --no-owner --no-acl -h ' . $host . ' -U ' . $username . ' -f ' . $filepath . '.sql ' . $database;
             break;
@@ -160,8 +151,7 @@ class BackupDatabaseCommand extends Command
                 $cmd = 'mysqldump - u' . $username . ' - p' . $password . ' ' . $database . ' > ' . $filepath . '.sql';
             break;
         }
-        if ( !empty( $cmd ) )
-        {
+        if ( !empty( $cmd ) ) {
             $this->_runCmd( $cmd );
         }
         /*
@@ -170,8 +160,7 @@ class BackupDatabaseCommand extends Command
         $this->info( '  Trying to compress' );
         $cmd = [];
         $cmd[] = 'cd ' . $backupDir;
-        switch( $archiver )
-        {
+        switch( $archiver ) {
             default:
             case 'tar.gzip':
                 $_extension     = '.tar.gz ';

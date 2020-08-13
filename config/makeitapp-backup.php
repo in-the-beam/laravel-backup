@@ -1,4 +1,5 @@
 <?php
+
 return [
     /**
      * Directory for newly created backups

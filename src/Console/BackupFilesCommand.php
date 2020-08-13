@@ -5,16 +5,16 @@
  * @author    Stanislav Kabin <me@h-zone.ru>
  * @copyright 2019 Stanislav Kabin
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
- * @link      https://github.com/in-the-beam/laravel-backup
+ * @link      https://github.com/make-it-app/laravel-backup-commands
  */
 
 
-namespace ITB\Backup\Console;
+namespace MakeItApp\Backup\Console;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use ITB\Backup\Traits\CommandTrait;
+use MakeItApp\Backup\Traits\CommandTrait;
 
 class BackupFilesCommand extends Command
 {
@@ -23,7 +23,7 @@ class BackupFilesCommand extends Command
      * The console command name.
      * @var string
      */
-    protected $name = 'ITB:backup-files';
+    protected $name = 'makeitapp:backup:files';
 
     /**
      * The console command description.
@@ -44,7 +44,7 @@ class BackupFilesCommand extends Command
      */
     public function __construct()
     {
-        $this->config     = config( 'ITB-backup' );
+        $this->config     = config( 'makeitapp-backup' );
         $this->utime      = time();
         $this->date       = date( 'Y-m-d', $this->utime );
         $this->time       = date( 'H-i-s', $this->utime );
@@ -59,9 +59,8 @@ class BackupFilesCommand extends Command
      */
     public function handle()
     {
-        if ( $this->config['files']['enabled'] != true )
-        {
-            $this->error( 'ITB:backup-files IS DISABLED VIA CONFIGURATION' );
+        if ( $this->config['files']['enabled'] != true ) {
+            $this->error( 'makeitapp:backup:files IS DISABLED VIA CONFIGURATION' );
             die;
         }
         $this->info( '' );
@@ -86,26 +85,21 @@ class BackupFilesCommand extends Command
         $start = microtime(true);
         $this->info( '  Trying to compress files' );
         // code
-
         $config    = $this->config;
         $exclude   = $config['files']['exclude'];
         $archiver  = $config['archiver'];
-        if ( !empty( $config['files']['archiver'] ) )
-        {
+        if ( !empty( $config['files']['archiver'] ) ) {
             $archiver = $config['files']['archiver'];
         }
 
         /*
          * OPTION Date-Directories
          */
-        if ( $config['use_date_directory'] )
-        {
+        if ( $config['use_date_directory'] ) {
             $backupDir = $this->config['backupDir'] . $this->date;
             $filepath  = $backupDir . '/' . $this->dfilename;
             $filename  = $this->dfilename;
-        }
-        else
-        {
+        } else {
             $backupDir = $this->config['backupDir'];
             $filepath  = $backupDir . '/' .  $this->filename;
             $filename  = $this->filename;
@@ -117,12 +111,9 @@ class BackupFilesCommand extends Command
          */
         
         $_excluded = '';
-        if ( !empty( $exclude ) )
-        {
-            foreach( $exclude as $e )
-            {
-                switch( $archiver )
-                {
+        if ( !empty( $exclude ) ) {
+            foreach( $exclude as $e ) {
+                switch( $archiver ) {
                     case 'tar.gzip':
                         $_excluded .= " --exclude='" . str_replace( base_path() . '/', null, $e ) . "'";
                     break;
@@ -138,8 +129,7 @@ class BackupFilesCommand extends Command
 
         $cmd = [];
         $cmd[] = 'cd ' . base_path();
-        switch( $archiver )
-        {
+        switch( $archiver ) {
             default:
             case 'tar.gzip':
                 $_extension     = '.tar.gz ';
