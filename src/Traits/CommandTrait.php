@@ -20,11 +20,23 @@ trait CommandTrait
     {
         if ( !empty( $cmd ) ) {
             if ( is_array( $cmd ) ) {
+                foreach($cmd as &$c) {
+                    $c = str_replace(["/", "\\/", "\\\\"], "\\", $c);
+                }
                 $cmd = implode( ' && ', $cmd );
             }
+            if ( function_exists( 'exec' ) ) {
+                exec( $cmd );
+            } else {
+                if ( $this->messaging === true ) {
+                    $this->error( 'linux php-cli should support \'exec\' command to proper functionality' );
+                }
+            }
+
+/*
             if ( $this->_isWindows() ) {
                 if ( function_exists( 'popen' ) && function_exists( 'pclose' ) ) {
-                    pclose( popen( 'start / B ' . $cmd, 'r' ) );
+                    pclose( popen( 'start /b ' . $cmd, 'r' ) );
                 } else {
                     if ( $this->messaging === true ) {
                         $this->error( 'Windows php.exe should support \'popen\'|\'pclose\' commands to proper functionality' );
@@ -40,6 +52,7 @@ trait CommandTrait
                     }
                 }
             }
+*/
         } else {
             $this->error( 'Command is empty. Check Requirements first.' );
         }

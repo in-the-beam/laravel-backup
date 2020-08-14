@@ -118,10 +118,10 @@ class BackupFilesCommand extends Command
                         $_excluded .= " --exclude='" . str_replace( base_path() . '/', null, $e ) . "'";
                     break;
                     case 'zip':
-                        $_excluded .= " -x '*" . str_replace( base_path() . '/', null, $e ) . "/*'";
+                        $_excluded .= " -x '" . str_replace( base_path() . '/', null, $e ) . "/*'";
                     break;
                     case 'rar':
-                        $_excluded .= " -x*" . str_replace( base_path() . '/', null, addslashes( $e ) ) . '\*';
+                        $_excluded .= " -x" . str_replace( base_path() . '/', null, addslashes( $e ) ) . '\*';
                     break;
                 }
             }

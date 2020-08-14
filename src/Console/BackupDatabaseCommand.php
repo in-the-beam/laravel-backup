@@ -145,7 +145,11 @@ class BackupDatabaseCommand extends Command
         $cmd = '';
         switch ( $driver ) {
             case 'pgsql':
-                $cmd = 'PGPASSWORD="' . $password . '" pg_dump --column-inserts --no-owner --no-acl -h ' . $host . ' -U ' . $username . ' -f ' . $filepath . '.sql ' . $database;
+                if ( $this->_isWindows() ) {
+                    $cmd = 'SET PGPASSWORD="' . $password . '" && pg_dump --column-inserts --no-owner --no-acl -h ' . $host . ' -U ' . $username . ' -f ' . $filepath . '.sql ' . $database;
+                } else {
+                    $cmd = 'PGPASSWORD="' . $password . '" pg_dump --column-inserts --no-owner --no-acl -h ' . $host . ' -U ' . $username . ' -f ' . $filepath . '.sql ' . $database;
+                }
             break;
             case 'mysql':
                 $cmd = 'mysqldump - u' . $username . ' - p' . $password . ' ' . $database . ' > ' . $filepath . '.sql';

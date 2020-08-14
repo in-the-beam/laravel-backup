@@ -71,12 +71,12 @@ return [
          */
         'exclude' => [
             storage_path() . '/backups',    // Archive storage, You can remove it if backups folder is outside the framework
-            base_path() . '/.git',          // git version control
-            base_path() . '/.svn',          // subversion version control
-            base_path() . '/.hg',           // mercurial version control
-            'node_modules',                 // nodejs modules
-            'bower_components',             // bower components
-            'vendor',                       // vendor directory. optional        ],
+            base_path() . '/.git/',          // git version control
+            base_path() . '/.svn/',          // subversion version control
+            base_path() . '/.hg/',           // mercurial version control
+            'node_modules/',                 // nodejs modules
+            'bower_components/',             // bower components
+            'vendor/',                       // vendor directory. optional        ],
         ],
         /**
          * Archiver / OVERRIDE GLOBALS
@@ -84,7 +84,7 @@ return [
          * Accepts: [ tar.gzip | zip | rar | NULL ]
          * If not null - will be used global variable
          */
-        'archiver' => 'tar.gzip',
+        'archiver' => 'rar',
     ],
     /**
      * CLEANUP
