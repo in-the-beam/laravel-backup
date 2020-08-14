@@ -15,7 +15,7 @@ Tested on Laravel 5.8+
 ## Installation
 
 ```
-composer require makeitapp/laravel-backup-commands
+composer require make-it-app/laravel-backup-commands
 ```
 Package Auto-Discovery is supported
 
@@ -27,7 +27,7 @@ php artisan vendor:publish --provider="MakeItApp\Backup\BackupServiceProvider" -
 
 #### Database(s)
 
-Package is looking for database connections declared in configuration `MakeItApp-backup.database.connections`
+Package is looking for database connections declared in configuration `makeitapp-backup.database.connections`
 In `config/database.php` connections is a keys of the array `database.connections`.
 That it!
 
